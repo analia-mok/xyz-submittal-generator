@@ -119,7 +119,7 @@
             <ul>
                 {{-- TODO: Generate proper names in seeded data source --}}
                 @foreach ($systems as $system)
-                    <li>W-AJ-{{ $system->name }}</li>
+                    <li>{{ $system->name }}</li>
                 @endforeach
             </ul>
 
