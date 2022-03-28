@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             SystemTypeSeeder::class,
             FRatingSeeder::class,
             TRatingSeeder::class,
-            // @todo add systems seeder.
+            SystemSeeder::class,
         ]);
     }
 }

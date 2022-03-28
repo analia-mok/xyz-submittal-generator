@@ -1,0 +1,22 @@
+.page {
+  padding: 0 15px;
+
+  &__header {
+    padding-bottom: 50px;
+    margin-bottom: 50px;
+
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.25;
+      margin: 0 0 20px 0;
+    }
+
+    h2 {
+      font-size: 32px;
+      font-weight: 500;
+      line-height: 1.25;
+      margin: 0;
+    }
+  }
+}
