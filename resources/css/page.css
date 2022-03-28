@@ -2,6 +2,7 @@
   padding: 0 15px;
 
   &__header {
+    border-bottom: 2px solid #C4C4C4;
     padding-bottom: 50px;
     margin-bottom: 50px;
 
@@ -17,6 +18,10 @@
       font-weight: 500;
       line-height: 1.25;
       margin: 0;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
     }
   }
 }
