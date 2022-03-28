@@ -14,6 +14,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $this->call([
+            BarrierTypeSeeder::class,
+            PenetrantSeeder::class,
+            SystemTypeSeeder::class,
+            FRatingSeeder::class,
+            TRatingSeeder::class,
+            // @todo add systems seeder.
+        ]);
     }
 }
