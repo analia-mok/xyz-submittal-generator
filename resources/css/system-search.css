@@ -1,0 +1,38 @@
+.system-search {
+  display: flex;
+  justify-content: space-between;
+
+  &__column {
+    flex: 0 1 66%;
+
+    &:first-child {
+      flex-basis: 33%;
+      margin-right: 20px;
+      max-width: 246px;
+    }
+  }
+
+  fieldset {
+    margin: 0;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid #C4C4C4;
+
+    legend {
+      padding: 20px 0;
+
+      h3 {
+        margin: 0;
+      }
+    }
+
+    label {
+      display: block;
+    }
+
+    &:first-child {
+      legend {
+        padding-top: 0;
+      }
+    }
+  }
+}
