@@ -38,9 +38,6 @@ class SystemsNameGenerator extends Controller
 
             $name = $systemType . '-' . $system->name;
 
-            $system->name = $name;
-            $system->save();
-
             $names[] = $name;
         }
 

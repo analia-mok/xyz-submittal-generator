@@ -1,5 +1,5 @@
 <code>
 @foreach($names as $name)
-    <p>{{ $name }}</p>
+    {{ $name }}<br />
 @endforeach
 </code>

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Enums\BooleanOptions;
+use App\Http\Livewire\Wireable\SelectedSystems;
 use App\Models\BarrierType;
 use App\Models\FRating;
 use App\Models\Penetrant;
@@ -15,6 +16,13 @@ use Livewire\WithPagination;
 class SystemsSearch extends Component
 {
     use WithPagination;
+
+    /**
+     * User's selected systems.
+     *
+     * @var SelectedSystems
+     */
+    public SelectedSystems $selectedSystems;
 
     /**
      * Keyword search.
@@ -79,6 +87,15 @@ class SystemsSearch extends Component
      */
     public $wRating = BooleanOptions::Any;
 
+    protected $listeners = [
+        'systemToggle' => 'toggleSystem',
+    ];
+
+    public function mount()
+    {
+        $this->selectedSystems = new SelectedSystems();
+    }
+
     public function render()
     {
         $systems = System::all();
@@ -87,7 +104,8 @@ class SystemsSearch extends Component
         // Will only show results for the current page.
         $testingAuthorities = $systems->pluck('testing_authority')->unique();
 
-        // @todo convert filters to properties.
+        $filteredSystems = [];
+
         return view('livewire.systems-search', [
             'systems' => System::paginate(10),
             'system_types' => SystemType::all(),
@@ -96,7 +114,16 @@ class SystemsSearch extends Component
             'testing_authorities' => $testingAuthorities,
             'f_rating' => FRating::all(),
             't_rating' => TRating::all(),
-            'filters' => [...$this->fRating],
+            // 'filters' => [...$this->fRating],
         ]);
+    }
+
+    public function toggleSystem(System $system)
+    {
+        if ($this->selectedSystems->hasSystem($system->id)) {
+            $this->selectedSystems->removeSystem($system->id);
+        } else {
+            $this->selectedSystems->addSystem($system);
+        }
     }
 }

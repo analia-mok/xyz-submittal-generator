@@ -1,6 +1,22 @@
 <section class="system-search">
     <div class="system-search__column">
+
+        @if(!$selectedSystems->isEmpty())
+            <div>
+                <strong>Your Selections:</strong>
+                <ul>
+                    {{-- TODO: Add remove button --}}
+                    @foreach ($selectedSystems->systems as $system)
+                        <li>{{ $system }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         {{-- TODO: Convert filters to accordions --}}
+        <label for="search" class="sr-only">Search for systems</label>
+        <input type="text" wire:model.debounce.500ms="search" id="search" placeholder="Search for systems">
+
         @if(!empty($system_types))
             <fieldset>
                 <legend>
@@ -116,12 +132,9 @@
         @if(!empty($systems))
             <strong>Showing {{ ($systems->currentPage() - 1) * $systems->perPage() + 1 }} to {{ min($systems->currentPage() * $systems->perPage(), $systems->total()) }}  out of {{ $systems->total() }}</strong>
 
-            <ul>
-                {{-- TODO: Generate proper names in seeded data source --}}
-                @foreach ($systems as $system)
-                    <li>{{ $system->name }}</li>
-                @endforeach
-            </ul>
+            @foreach ($systems as $system)
+                <x-system-card :system="$system" />
+            @endforeach
 
             {{ $systems->links() }}
         @else

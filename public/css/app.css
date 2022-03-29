@@ -1,1 +1,99 @@
-.page{padding:0 15px}.page__header{border-bottom:2px solid #c4c4c4;margin-bottom:50px;padding-bottom:50px}.page__header h1{font-size:36px;font-weight:700;line-height:1.25;margin:0 0 20px}.page__header h2{font-size:32px;font-weight:500;line-height:1.25;margin:0}.page__header p:last-child{margin-bottom:0}.system-search{display:flex;justify-content:space-between}.system-search__column{flex:0 1 66%}.system-search__column:first-child{flex-basis:33%;margin-right:20px;max-width:246px}.system-search fieldset{border-bottom:1px solid #c4c4c4;margin:0;padding:0 0 20px}.system-search fieldset legend{padding:20px 0}.system-search fieldset legend h3{margin:0}.system-search fieldset label{display:block}.system-search fieldset:first-child legend{padding-top:0}main{margin:100px auto;max-width:1200px}
+.page {
+  padding: 0 15px;
+}
+
+  .page__header {
+    border-bottom: 2px solid #C4C4C4;
+    padding-bottom: 50px;
+    margin-bottom: 50px;
+  }
+
+  .page__header h1 {
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.25;
+      margin: 0 0 20px 0;
+    }
+
+  .page__header h2 {
+      font-size: 32px;
+      font-weight: 500;
+      line-height: 1.25;
+      margin: 0;
+    }
+
+  .page__header p:last-child {
+      margin-bottom: 0;
+    }
+.system-search {
+  display: flex;
+  justify-content: space-between;
+}
+.system-search__column {
+    flex: 0 1 66%;
+  }
+.system-search__column:first-child {
+      flex-basis: 33%;
+      margin-right: 20px;
+      max-width: 246px;
+    }
+.system-search__column input[type="text"] {
+      display: block;
+      outline: 1px solid #C4C4C4;
+      border-radius: 6px;
+      padding: 12px;
+      width: 100%;
+    }
+.system-search fieldset {
+    margin: 0;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid #C4C4C4;
+  }
+.system-search fieldset legend {
+      padding: 20px 0;
+    }
+.system-search fieldset legend h3 {
+        margin: 0;
+      }
+.system-search fieldset label {
+      display: block;
+    }
+.system-search fieldset:first-child legend {
+        padding-top: 0;
+      }
+.system-card {
+    display: flex;
+    padding: 20px 0;
+}
+.system-card__column:last-child {
+            flex: 1;
+        }
+.system-card__column h3 {
+            margin: 0 0 20px 0;
+        }
+.system-card__column input[type="checkbox"] {
+            margin: 0;
+        }
+.system-card__content {
+        margin-left: 10px;
+    }
+.system-card__content a {
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+main {
+  max-width: 1200px;
+  margin: 100px auto;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+

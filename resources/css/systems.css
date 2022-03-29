@@ -1,0 +1,27 @@
+.system-card {
+    display: flex;
+    padding: 20px 0;
+
+    &__column {
+        &:last-child {
+            flex: 1;
+        }
+
+        h3 {
+            margin: 0 0 20px 0;
+        }
+
+        input[type="checkbox"] {
+            margin: 0;
+        }
+    }
+
+    &__content {
+        margin-left: 10px;
+
+        a {
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+    }
+}
