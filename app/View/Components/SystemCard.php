@@ -14,6 +14,7 @@ class SystemCard extends Component
      */
     public function __construct(
         public System $system,
+        public $isSelected = false,
     ) { }
 
     /**

@@ -133,7 +133,7 @@
             <strong>Showing {{ ($systems->currentPage() - 1) * $systems->perPage() + 1 }} to {{ min($systems->currentPage() * $systems->perPage(), $systems->total()) }}  out of {{ $systems->total() }}</strong>
 
             @foreach ($systems as $system)
-                <x-system-card :system="$system" />
+                <x-system-card :system="$system" :isSelected="$selectedSystems->hasSystem($system->id)" />
             @endforeach
 
             {{ $systems->links() }}

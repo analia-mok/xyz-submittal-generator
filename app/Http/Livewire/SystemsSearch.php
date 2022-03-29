@@ -93,7 +93,12 @@ class SystemsSearch extends Component
 
     public function mount()
     {
-        $this->selectedSystems = new SelectedSystems();
+        $systems = [];
+        if (session()->has('selected_systems')) {
+            $systems = session()->get('selected_systems');
+        }
+
+        $this->selectedSystems = new SelectedSystems($systems);
     }
 
     public function render()
@@ -125,5 +130,8 @@ class SystemsSearch extends Component
         } else {
             $this->selectedSystems->addSystem($system);
         }
+
+        // TODO: Optimize this better?
+        session(['selected_systems' => $this->selectedSystems->systems]);
     }
 }
