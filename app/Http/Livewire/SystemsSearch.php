@@ -10,6 +10,7 @@ use App\Models\Penetrant;
 use App\Models\System;
 use App\Models\SystemType;
 use App\Models\TRating;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -110,6 +111,26 @@ class SystemsSearch extends Component
         $testingAuthorities = $systems->pluck('testing_authority')->unique();
 
         $filteredSystems = [];
+
+        // @todo Figure out how to flexibly chain query builder.
+        $query = System::where('l_rating', true);
+        // $query->orWhere('w_rating', $this->wRating);
+
+        if (!empty($this->systemTypes)) {
+            $query->orWhereIn('system_type_id', $this->systemTypes);
+        }
+
+        if (!empty($this->barrierTypes)) {
+            $query->orWhereIn('barrier_type_id', $this->barrierTypes);
+        }
+
+        if (!empty($this->penetrants)) {
+            $query->orWhereIn('penetrant_id', $this->penetrants);
+        }
+
+        if (!empty($this->testing_authorities)) {
+            $query->orWhereIn('testing_authority', $this->testingAuthorities);
+        }
 
         return view('livewire.systems-search', [
             'systems' => System::paginate(10),
