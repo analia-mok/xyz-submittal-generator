@@ -2,18 +2,25 @@
     <div class="system-search__column">
 
         @if(!$selectedSystems->isEmpty())
-            <div>
+            <div class="system-search__selections">
                 <strong>Your Selections:</strong>
-                <ul>
-                    {{-- TODO: Add remove button --}}
-                    @foreach ($selectedSystems->systems as $system)
-                        <li>{{ $system }}</li>
+                <ul class="system-search__selections__items">
+                    @foreach ($selectedSystems->systems as $key => $system)
+                        <li class="system-search__selections__item">
+                            {{ $system }}
+                            <button
+                                type="button"
+                                aria-label="Remove {{ $system }} from your selection"
+                                wire:click="removeSystem({{ $key }})"
+                            >
+                                <x-heroicon-s-trash class="system-search__selections__item__icon" />
+                            </button>
+                        </li>
                     @endforeach
                 </ul>
             </div>
         @endif
 
-        {{-- TODO: Convert filters to accordions --}}
         <label for="search" class="sr-only">Search for systems</label>
         <input type="text" wire:model.debounce.500ms="search" id="search" placeholder="Search for systems">
 

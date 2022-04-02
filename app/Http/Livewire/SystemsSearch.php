@@ -95,9 +95,11 @@ class SystemsSearch extends Component
     public function mount()
     {
         $systems = [];
+        // @fixme Need to adjust how this is kept in session.
         if (session()->has('selected_systems')) {
-            $systems = session()->get('selected_systems');
+            dd($systems);
         }
+        // $systems = session('selected_systems', []);
 
         $this->selectedSystems = new SelectedSystems($systems);
     }
@@ -141,7 +143,6 @@ class SystemsSearch extends Component
             return $query->where('name', 'LIKE', "%{$this->search}%");
         });
 
-
         $query->when(!empty($this->systemTypes), function ($query) {
             return $query->orWhereIn('system_type_id', $this->systemTypes);
         });
@@ -166,10 +167,12 @@ class SystemsSearch extends Component
             return $query->orWhereIn('t_rating_id', $this->tRating);
         });
 
+        // @fixme
         $query->when($this->lRating !== BooleanOptions::Any, function ($query) {
             return $query->orWhere('l_rating', $this->lRating === BooleanOptions::Yes);
         });
 
+        // @fixme
         $query->when($this->wRating !== BooleanOptions::Any, function ($query) {
             return $query->orWhere('w_rating', $this->wRating === BooleanOptions::Yes);
         });
@@ -177,7 +180,7 @@ class SystemsSearch extends Component
         return $query->paginate(10);
     }
 
-    public function updatedLRating($value)
+    public function updatedName($value)
     {
         $this->resetPage();
     }
@@ -187,6 +190,51 @@ class SystemsSearch extends Component
         $this->resetPage();
     }
 
+    public function updatedTestingAuthorities($value)
+    {
+        $this->resetPage();
+    }
+
+    public function updatedBarrierTypes($value)
+    {
+        $this->resetPage();
+    }
+
+    public function updatedPenetrants($value)
+    {
+        $this->resetPage();
+    }
+
+    public function updatedLRating($value)
+    {
+        $this->resetPage();
+    }
+
+    public function updatedFRating($value)
+    {
+        $this->resetPage();
+    }
+
+    public function updatedTRating($value)
+    {
+        $this->resetPage();
+    }
+
+    public function updatedWRating($value)
+    {
+        $this->resetPage();
+    }
+
+    public function updatedSelectedSystems(SelectedSystems $value)
+    {
+        session(['selected_systems', $value]);
+    }
+
+    public function removeSystem(string $id)
+    {
+        $this->selectedSystems->removeSystem($id);
+    }
+
     public function toggleSystem(System $system)
     {
         if ($this->selectedSystems->hasSystem($system->id)) {
@@ -194,8 +242,5 @@ class SystemsSearch extends Component
         } else {
             $this->selectedSystems->addSystem($system);
         }
-
-        // TODO: Optimize this better?
-        session(['selected_systems' => $this->selectedSystems->systems]);
     }
 }
