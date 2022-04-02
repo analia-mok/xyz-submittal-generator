@@ -1,0 +1,45 @@
+.search-filter {
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid #C4C4C4;
+
+    &__heading {
+        display: flex;
+        width: 100%;
+        padding: 20px 0;
+
+        h3 {
+            margin: 0;
+            flex: 1;
+        }
+    }
+
+    &__icon {
+        display: inline-block;
+        fill: black;
+        width: 24px;
+        height: 24px;
+
+        &--closed {
+            display: none;
+        }
+    }
+
+    &__options {
+        padding-bottom: 40px;
+
+        &--open {
+            display: block;
+        }
+
+        label {
+            display: block;
+        }
+    }
+
+    button {
+        background: transparent;
+        color: #2D2D2D;
+        padding: 4px;
+    }
+}

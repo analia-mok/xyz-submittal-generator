@@ -30,12 +30,12 @@ class SystemsSearch extends Component
      *
      * @var string
      */
-    public $search;
+    public $search = '';
 
     /**
      * System type.
      *
-     * @var string[]
+     * @var int[]
      */
     public $systemTypes = [];
 
@@ -104,44 +104,87 @@ class SystemsSearch extends Component
 
     public function render()
     {
-        $systems = System::all();
-
-        // @todo Either hardcode/enum or switch to pluck from all systems.
-        // Will only show results for the current page.
-        $testingAuthorities = $systems->pluck('testing_authority')->unique();
-
-        $filteredSystems = [];
-
-        // @todo Figure out how to flexibly chain query builder.
-        $query = System::where('l_rating', true);
-        // $query->orWhere('w_rating', $this->wRating);
-
-        if (!empty($this->systemTypes)) {
-            $query->orWhereIn('system_type_id', $this->systemTypes);
-        }
-
-        if (!empty($this->barrierTypes)) {
-            $query->orWhereIn('barrier_type_id', $this->barrierTypes);
-        }
-
-        if (!empty($this->penetrants)) {
-            $query->orWhereIn('penetrant_id', $this->penetrants);
-        }
-
-        if (!empty($this->testing_authorities)) {
-            $query->orWhereIn('testing_authority', $this->testingAuthorities);
-        }
+        $testingAuthorities = DB::table('systems')
+            ->select('testing_authority')
+            ->distinct()
+            ->get()
+            ->pluck('testing_authority');
 
         return view('livewire.systems-search', [
-            'systems' => System::paginate(10),
             'system_types' => SystemType::all(),
             'barrier_types' => BarrierType::all(),
             'penetrants' => Penetrant::all(),
             'testing_authorities' => $testingAuthorities,
             'f_rating' => FRating::all(),
             't_rating' => TRating::all(),
-            // 'filters' => [...$this->fRating],
         ]);
+    }
+
+    public function getFiltersProperty()
+    {
+        return [
+            // $this->lRating !== BooleanOptions::Any ? 'L-Rating: ' . $this->lRating : '',
+            // ...$this->fRating,
+            // ...$this->tRating,
+            // ...$this->systemTypes,
+            // ...$this->barrierTypes,
+            // ...$this->penetrants,
+            // ...$this->testingAuthorities,
+        ];
+    }
+
+    public function getResultsProperty()
+    {
+        $query = System::query();
+
+        $query->when(!empty($this->search), function ($query) {
+            return $query->where('name', 'LIKE', "%{$this->search}%");
+        });
+
+
+        $query->when(!empty($this->systemTypes), function ($query) {
+            return $query->orWhereIn('system_type_id', $this->systemTypes);
+        });
+
+        $query->when(!empty($this->testingAuthorities), function ($query) {
+            return $query->orWhereIn('testing_authority', $this->testingAuthorities);
+        });
+
+        $query->when(!empty($this->barrierTypes), function ($query) {
+            return $query->orWhereIn('barrier_type_id', $this->barrierTypes);
+        });
+
+        $query->when(!empty($this->penetrants), function ($query) {
+            return $query->orWhereIn('penetrant_id', $this->penetrants);
+        });
+
+        $query->when(!empty($this->fRating), function ($query) {
+            return $query->orWhereIn('f_rating_id', $this->fRating);
+        });
+
+        $query->when(!empty($this->tRating), function ($query) {
+            return $query->orWhereIn('t_rating_id', $this->tRating);
+        });
+
+        $query->when($this->lRating !== BooleanOptions::Any, function ($query) {
+            return $query->orWhere('l_rating', $this->lRating === BooleanOptions::Yes);
+        });
+
+        $query->when($this->wRating !== BooleanOptions::Any, function ($query) {
+            return $query->orWhere('w_rating', $this->wRating === BooleanOptions::Yes);
+        });
+
+        return $query->paginate(10);
+    }
+
+    public function updatedLRating($value)
+    {
+        $this->resetPage();
+    }
+
+    public function updatedSystemTypes($value)
+    {
+        $this->resetPage();
     }
 
     public function toggleSystem(System $system)

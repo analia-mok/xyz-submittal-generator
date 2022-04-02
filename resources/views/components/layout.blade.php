@@ -12,6 +12,7 @@
         </style>
 
         <link rel="stylesheet" href="/css/app.css">
+        <script defer src="https://unpkg.com/alpinejs@3.9.5/dist/cdn.min.js"></script>
 
         @livewireStyles
     </head>

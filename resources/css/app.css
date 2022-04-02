@@ -1,6 +1,7 @@
 @import 'page.css';
 @import 'system-search.css';
 @import 'systems.css';
+@import 'search-filter.css';
 
 main {
   max-width: 1200px;
