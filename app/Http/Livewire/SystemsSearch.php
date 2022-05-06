@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Cache\SystemsCache;
 use App\Enums\BooleanOptions;
 use App\Http\Livewire\Wireable\SelectedSystems;
 use App\Models\BarrierType;
@@ -12,7 +13,6 @@ use App\Models\SystemType;
 use App\Models\TRating;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -96,7 +96,7 @@ class SystemsSearch extends Component
 
     public function mount()
     {
-        $systems = Cache::get('selected_systems', []);
+        $systems = SystemsCache::get();
 
         $this->selectedSystems = new SelectedSystems($systems);
     }
@@ -225,7 +225,7 @@ class SystemsSearch extends Component
     public function dehydrate()
     {
         // Keep selections for 24hrs.
-        Cache::put('selected_systems', $this->selectedSystems->all(), now()->addDay());
+        SystemsCache::set($this->selectedSystems->all());
     }
 
     /**
