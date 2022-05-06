@@ -5,7 +5,7 @@
             <div class="system-search__selections">
                 <strong>Your Selections:</strong>
                 <ul class="system-search__selections__items">
-                    @foreach ($selectedSystems->systems as $key => $system)
+                    @foreach ($selectedSystems->all() as $key => $system)
                         <li class="system-search__selections__item">
                             {{ $system }}
                             <button

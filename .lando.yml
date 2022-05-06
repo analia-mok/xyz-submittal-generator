@@ -17,6 +17,9 @@ services:
     hogfrom:
       - appserver
 
+  redis:
+    type: redis:6
+
   appserver:
     type: php:8.1
     xdebug: true

@@ -10,7 +10,9 @@ use App\Models\Penetrant;
 use App\Models\System;
 use App\Models\SystemType;
 use App\Models\TRating;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -94,12 +96,7 @@ class SystemsSearch extends Component
 
     public function mount()
     {
-        $systems = [];
-        // @fixme Need to adjust how this is kept in session.
-        if (session()->has('selected_systems')) {
-            dd($systems);
-        }
-        // $systems = session('selected_systems', []);
+        $systems = Cache::get('selected_systems', []);
 
         $this->selectedSystems = new SelectedSystems($systems);
     }
@@ -225,16 +222,31 @@ class SystemsSearch extends Component
         $this->resetPage();
     }
 
-    public function updatedSelectedSystems(SelectedSystems $value)
+    public function dehydrate()
     {
-        session(['selected_systems', $value]);
+        // Keep selections for 24hrs.
+        Cache::put('selected_systems', $this->selectedSystems->all(), now()->addDay());
     }
 
+    /**
+     * Removes a system from active selection.
+     *
+     * Specifically used for the SelectedSystems preview.
+     *
+     * @param string $id
+     */
     public function removeSystem(string $id)
     {
         $this->selectedSystems->removeSystem($id);
     }
 
+    /**
+     * Adds or removes a system from active selection.
+     *
+     * Specifically used for main search results.
+     *
+     * @param System $system
+     */
     public function toggleSystem(System $system)
     {
         if ($this->selectedSystems->hasSystem($system->id)) {

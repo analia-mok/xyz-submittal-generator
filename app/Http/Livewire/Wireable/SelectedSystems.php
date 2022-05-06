@@ -7,7 +7,7 @@ use Livewire\Wireable;
 
 class SelectedSystems implements Wireable
 {
-    public $systems = [];
+    protected $systems = [];
 
     public function __construct(array $systems = [])
     {
@@ -44,5 +44,10 @@ class SelectedSystems implements Wireable
         if ($this->hasSystem($systemId)) {
             unset($this->systems[$systemId]);
         }
+    }
+
+    public function all(): array
+    {
+        return $this->systems;
     }
 }
