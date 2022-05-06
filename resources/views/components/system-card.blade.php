@@ -5,8 +5,8 @@
     </div>
     <div class="system-card__column system-card__content">
         <header>
-            {{-- TODO: Add more info icon --}}
-            <h3 aria-hidden="true">{{ $system->name }}</h3>
+            {{-- TODO: Change more info icon into a button --}}
+            <h3 class="system-card__heading">{{ $system->name }} <x-heroicon-s-information-circle /></h3>
         </header>
         @if(!empty($system->description))
             <p>
@@ -14,6 +14,6 @@
             </p>
         @endif
         {{-- TODO: Download link --}}
-        <a href="#" target="_blank">Download</a>
+        <a href="#" target="_blank" class="system-card__download-link">Download <x-heroicon-s-download /></a>
     </div>
 </article>

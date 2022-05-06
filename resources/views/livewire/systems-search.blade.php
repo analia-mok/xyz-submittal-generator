@@ -19,6 +19,7 @@
                     @endforeach
                 </ul>
             </div>
+            <button type="button" wire:click="resetSearch" class="system-search__selections__reset">Reset Submittal</button>
         @endif
 
         <label for="search" class="sr-only">Search for systems</label>

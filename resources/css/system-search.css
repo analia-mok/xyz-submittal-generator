@@ -21,11 +21,14 @@
   }
 
   &__selections {
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    border: 1px solid #C4C4C4;
 
     &__items {
       list-style-type: none;
-      padding: 10px 16px;
-      margin: 0;
+      padding: 0;
+      margin: 12px 0 0;
     }
 
     &__item {
@@ -42,6 +45,29 @@
         margin-left: auto;
         padding: 10px;
         background-color: transparent;
+        cursor: pointer;
+
+        svg {
+          transition: fill 0.2s ease-in-out;
+        }
+
+        &:hover {
+          svg {
+            fill: #aaa;
+          }
+        }
+      }
+    }
+
+    &__reset {
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      cursor: pointer;
+      font-weight: 600;
+
+      &:hover {
+        background-color: #AAA;
+        color: white;
       }
     }
   }

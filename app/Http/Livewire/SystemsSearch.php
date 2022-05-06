@@ -255,4 +255,12 @@ class SystemsSearch extends Component
             $this->selectedSystems->addSystem($system);
         }
     }
+
+    public function resetSearch()
+    {
+        SystemsCache::clear();
+        $this->resetPage();
+        $this->resetExcept('selectedSystems');
+        $this->selectedSystems->clear();
+    }
 }

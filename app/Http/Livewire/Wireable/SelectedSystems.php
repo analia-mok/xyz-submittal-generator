@@ -50,4 +50,9 @@ class SelectedSystems implements Wireable
     {
         return $this->systems;
     }
+
+    public function clear()
+    {
+        $this->systems = [];
+    }
 }
