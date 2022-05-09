@@ -3,9 +3,10 @@
 namespace App\Cache;
 
 use App\Models\System;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Session;
 
+/**
+ * Interface for managing a user's selections within session.
+ */
 class SystemsCache
 {
 
@@ -13,27 +14,26 @@ class SystemsCache
 
     public static function getKey(): string
     {
-        return self::KEY . '_' . Session::getId();
+        return self::KEY;
     }
 
     /**
      * Update selected systems storage for current user.
      *
      * @param System[] $systems
-     * @return void
      */
     public static function set(array $systems)
     {
-        Cache::put(self::getKey(), $systems, now()->addDay());
+        session()->put(self::getKey(), $systems);
     }
 
     public static function get(): array
     {
-        return Cache::get(self::getKey(), []);
+        return session(self::getKey(), []);
     }
 
     public static function clear()
     {
-        Cache::forget(self::getKey());
+        session()->forget(self::getKey());
     }
 }

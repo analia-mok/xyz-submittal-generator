@@ -1,4 +1,4 @@
-<article class="system-card">
+<article class="system-card" wire:key="system_{{ $system->id }}">
     <div class="system-card__column">
         <label for="system_{{ $system->id }}" class="sr-only">Add {{ $system->name }} to your selection</label>
         <input type="checkbox" wire:click="$emitUp('systemToggle', {{ $system }})" id="system_{{ $system->id }}" value="{{ $system->id }}" {{ $isSelected ? 'checked' : '' }}>

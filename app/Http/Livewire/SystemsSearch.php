@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Cache\SystemsCache;
 use App\Enums\BooleanOptions;
 use App\Http\Livewire\Wireable\SelectedSystems;
 use App\Models\BarrierType;
@@ -11,7 +10,6 @@ use App\Models\Penetrant;
 use App\Models\System;
 use App\Models\SystemType;
 use App\Models\TRating;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -19,13 +17,6 @@ use Livewire\WithPagination;
 class SystemsSearch extends Component
 {
     use WithPagination;
-
-    /**
-     * User's selected systems.
-     *
-     * @var SelectedSystems
-     */
-    public SelectedSystems $selectedSystems;
 
     /**
      * Keyword search.
@@ -94,13 +85,6 @@ class SystemsSearch extends Component
         'systemToggle' => 'toggleSystem',
     ];
 
-    public function mount()
-    {
-        $systems = SystemsCache::get();
-
-        $this->selectedSystems = new SelectedSystems($systems);
-    }
-
     public function render()
     {
         $testingAuthorities = DB::table('systems')
@@ -121,6 +105,8 @@ class SystemsSearch extends Component
 
     public function getFiltersProperty()
     {
+        // @fixme Computed Property to show a condensed list of filters a user
+        // currently has enabled.
         return [
             // $this->lRating !== BooleanOptions::Any ? 'L-Rating: ' . $this->lRating : '',
             // ...$this->fRating,
@@ -130,6 +116,20 @@ class SystemsSearch extends Component
             // ...$this->penetrants,
             // ...$this->testingAuthorities,
         ];
+    }
+
+    /**
+     * Retrieve user's selections from session.
+     *
+     * @return SelectedSystems
+     */
+    public function getSelectedSystemsProperty()
+    {
+        // Note: Given selectedSystems interacts with a persistent storage,
+        // it is not recommended to initialize this Wireable on mount.
+        // May cause Livewire\Exceptions\CorruptComponentPayloadException.
+        // @see https://laravel-livewire.com/docs/2.x/properties#computed-properties
+        return new SelectedSystems();
     }
 
     public function getResultsProperty()
@@ -222,12 +222,6 @@ class SystemsSearch extends Component
         $this->resetPage();
     }
 
-    public function dehydrate()
-    {
-        // Keep selections for 24hrs.
-        SystemsCache::set($this->selectedSystems->all());
-    }
-
     /**
      * Removes a system from active selection.
      *
@@ -258,9 +252,8 @@ class SystemsSearch extends Component
 
     public function resetSearch()
     {
-        SystemsCache::clear();
+        $this->selectedSystems->clear();
         $this->resetPage();
         $this->resetExcept('selectedSystems');
-        $this->selectedSystems->clear();
     }
 }

@@ -1,12 +1,12 @@
 <section class="system-search">
     <div class="system-search__column">
 
-        @if(!$selectedSystems->isEmpty())
+        @if(!$this->selectedSystems->isEmpty())
             <div class="system-search__selections">
                 <strong>Your Selections:</strong>
                 <ul class="system-search__selections__items">
-                    @foreach ($selectedSystems->all() as $key => $system)
-                        <li class="system-search__selections__item">
+                    @foreach ($this->selectedSystems->all() as $key => $system)
+                        <li class="system-search__selections__item" wire:key="selected_system_{{ $key }}">
                             {{ $system }}
                             <button
                                 type="button"
@@ -28,7 +28,7 @@
         @if(!empty($system_types))
             <x-search-filter title="System Types" openByDefault="true">
                 @foreach ($system_types as $type)
-                    <label for="system_type_{{ $type->id }}">
+                    <label for="system_type_{{ $type->id }}" wire:key="system_type_{{ $type->id }}">
                         <input type="checkbox" wire:model="systemTypes" id="system_type_{{ $type->id }}" value="{{ $type->id }}">
                         {{ $type->name }}
                     </label>
@@ -39,7 +39,7 @@
         @if(!empty($testing_authorities))
             <x-search-filter title="Testing Authority">
                 @foreach ($testing_authorities as $authority)
-                    <label for="testing_authority_{{ $authority }}">
+                    <label for="testing_authority_{{ $authority }}" wire:key="testing_authority_{{ $loop->index }}">
                         <input type="checkbox" wire:model="testingAuthorities" id="testing_authority_{{ $authority }}" value="{{ $authority }}">
                         {{ $authority }}
                     </label>
@@ -50,7 +50,7 @@
         @if(!empty($barrier_types))
             <x-search-filter title="Barrier Types">
                 @foreach ($barrier_types as $type)
-                    <label for="barrier_type_{{ $type->id }}">
+                    <label for="barrier_type_{{ $type->id }}" wire:key="barrier_type_{{ $type->id }}">
                         <input type="checkbox" wire:model="barrierTypes" id="barrier_type_{{ $type->id }}" value="{{ $type->id }}">
                         {{ $type->name }}
                     </label>
@@ -61,7 +61,7 @@
         @if(!empty($penetrants))
             <x-search-filter title="Penetrant Item">
                 @foreach ($penetrants as $type)
-                    <label for="penetrant_{{ $type->id }}">
+                    <label for="penetrant_{{ $type->id }}" wire:key="penetrant_{{ $type->id }}">
                         <input type="checkbox" wire:model="penetrants" id="penetrant_{{ $type->id }}" value="{{ $type->id }}">
                         {{ $type->name }}
                     </label>
@@ -72,7 +72,7 @@
         @if(!empty($f_rating))
             <x-search-filter title="F-Rating">
                 @foreach($f_rating as $rating)
-                    <label for="f_rating_{{ $rating->rating }}">
+                    <label for="f_rating_{{ $rating->rating }}" wire:key="f_rating_{{ $rating->id }}">
                         <input type="checkbox" wire:model="fRating" id="f_rating_{{ $rating->rating }}" value="{{ $rating->id }}">
                         {{ $rating->rating }}
                     </label>
@@ -89,7 +89,7 @@
         @if(!empty($t_rating))
             <x-search-filter title="T-Rating">
                 @foreach($t_rating as $rating)
-                    <label for="t_rating_{{ $rating->rating }}">
+                    <label for="t_rating_{{ $rating->rating }}" wire:key="t_rating_{{ $rating->id }}">
                         <input type="checkbox" wire:model="tRating" id="t_rating_{{ $rating->rating }}" value="{{ $rating->id }}">
                         {{ $rating->rating }}
                     </label>
@@ -116,7 +116,7 @@
             <strong>Showing {{ ($this->results->currentPage() - 1) * $this->results->perPage() + 1 }} to {{ min($this->results->currentPage() * $this->results->perPage(), $this->results->total()) }}  out of {{ $this->results->total() }}</strong>
 
             @foreach ($this->results as $system)
-                <x-system-card :system="$system" :isSelected="$selectedSystems->hasSystem($system->id)" />
+                <x-system-card :system="$system" :isSelected="$this->selectedSystems->hasSystem($system->id)" />
             @endforeach
 
             {{ $this->results->links() }}

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Wireable;
 
+use App\Cache\SystemsCache;
 use App\Models\System;
 use Livewire\Wireable;
 
@@ -11,7 +12,11 @@ class SelectedSystems implements Wireable
 
     public function __construct(array $systems = [])
     {
-        $this->systems = $systems;
+        if (empty($systems)) {
+            $this->systems = SystemsCache::get();
+        } else {
+            $this->systems = $systems;
+        }
     }
 
     public function toLivewire()
@@ -32,6 +37,7 @@ class SelectedSystems implements Wireable
     public function addSystem(System $system)
     {
         $this->systems[$system->id] = $system->name;
+        SystemsCache::set($this->systems);
     }
 
     public function hasSystem(int $systemId)
@@ -44,6 +50,8 @@ class SelectedSystems implements Wireable
         if ($this->hasSystem($systemId)) {
             unset($this->systems[$systemId]);
         }
+
+        SystemsCache::set($this->systems);
     }
 
     public function all(): array
@@ -54,5 +62,6 @@ class SelectedSystems implements Wireable
     public function clear()
     {
         $this->systems = [];
+        SystemsCache::clear();
     }
 }
